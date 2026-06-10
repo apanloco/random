@@ -94,6 +94,11 @@
     color: #e0e0e0;
     position: relative;
     overflow: hidden;
+    /* Promote to its own GPU layer so each textContent swap recomposites
+       cleanly — prevents stale antialiased glyph slivers (e.g. the left
+       edge of the "?") lingering until the land animation forces a repaint. */
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   .result-box.rolling {
@@ -116,6 +121,7 @@
   .result-text {
     position: relative;
     z-index: 1;
+    will-change: contents;
   }
 
   button {
